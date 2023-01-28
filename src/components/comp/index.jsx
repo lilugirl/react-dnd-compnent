@@ -12,5 +12,4 @@ export const Comp=({data})=>{
         default:
             return null
     }
-    return <div>组件</div>
 }

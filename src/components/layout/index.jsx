@@ -1,4 +1,5 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { comps } from "../../data";
 import { Comp } from "../comp";
 import "./index.css";
@@ -8,6 +9,7 @@ const Layout = () => {
   const [source, setSource] = useState();
   const [target, setTarget] = useState();
   const [selected, setSelected] = useState(-1);
+  const navigate = useNavigate();
 
   const onDragStart = (comp) => (e) => {
     setSource(comp);
@@ -38,10 +40,16 @@ const Layout = () => {
   };
 
   const onSave = () => {
-    setItems([...items]);
+    window.localStorage.setItem("comps", JSON.stringify(items));
   };
 
-  console.log("selected,items", selected, items);
+  const onPreview = () => {
+    navigate("/preview");
+  };
+
+  useEffect(() => {
+    window.localStorage.removeItem("comps");
+  }, []);
 
   return (
     <div className="layout">
@@ -73,7 +81,7 @@ const Layout = () => {
               onClick={onSelected(index)}
               className={`box ${selected === index ? "active" : ""}`}
             >
-             <Comp data={item} />
+              <Comp data={item} />
             </div>
           );
         })}
@@ -87,6 +95,9 @@ const Layout = () => {
                 <input
                   key={Math.random()}
                   defaultValue={prop.value}
+                  onBlur={() => {
+                    setItems([...items]);
+                  }}
                   onChange={(e) => {
                     prop.value = e.target.value;
                   }}
@@ -95,7 +106,8 @@ const Layout = () => {
             );
           })}
         <br />
-        <button onClick={onSave}>保存</button>
+        <button onClick={onSave}>保存</button>{" "}
+        <button onClick={onPreview}>预览</button>
         <br />
         {JSON.stringify(items)}
       </div>

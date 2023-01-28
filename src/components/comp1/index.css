@@ -2,3 +2,9 @@
     background-color: burlywood;
     color:coral;
 }
+
+.comp1-wrapper img{
+    width:200px;
+    height:auto;
+    display:block;
+}
