@@ -1,0 +1,54 @@
+.layout{
+    display:flex;
+    width:100vw;
+    height:100vh;
+}
+
+.layout .left{
+   width:120px;
+   background-color: antiquewhite;
+}
+
+.layout .left .box{
+    width:100px;
+    height:40px;
+    border:1px solid black;
+    color:black;
+    margin:10px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+   
+}
+
+.layout .right{
+    width:300px;
+    background-color: antiquewhite;
+    color:black;
+    padding:10px;
+}
+
+
+.layout .content{
+    flex:1;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.layout .content .box{
+    width:90%;
+    height:40px;
+    border:1px solid white;
+    color:white;
+    margin:10px;
+    display:flex;
+    align-items: center;
+    justify-content: center; 
+    cursor: pointer;
+}
+
+.layout .content .box.active{
+    border:2px dotted red;
+}
