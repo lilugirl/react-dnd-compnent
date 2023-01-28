@@ -1,4 +1,4 @@
-import { useState,  useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { comps } from "../../data";
 import { Comp } from "../comp";
@@ -8,6 +8,7 @@ const Layout = () => {
   const [items, setItems] = useState([]);
   const [source, setSource] = useState();
   const [target, setTarget] = useState();
+  const [position, setPosition] = useState(-1);
   const [selected, setSelected] = useState(-1);
   const navigate = useNavigate();
 
@@ -22,12 +23,22 @@ const Layout = () => {
 
   const onDrop = (e) => {
     e.preventDefault();
-    setItems([...items, JSON.parse(JSON.stringify(target))]);
-    setSelected(items.length);
+    if (position >= 0) {
+      let newItems = [...items];
+      newItems.splice(position, 0, JSON.parse(JSON.stringify(target)));
+      setItems(newItems);
+      setSelected(position);
+    } else {
+      setItems([...items, JSON.parse(JSON.stringify(target))]);
+      setSelected(items.length);
+    }
   };
 
   const onDragOver = (e) => {
     e.preventDefault();
+    e.target.getAttribute("data-id")
+      ? setPosition(e.target.getAttribute("data-id"))
+      : setPosition(-1);
     setTarget(source);
   };
 
@@ -44,7 +55,7 @@ const Layout = () => {
   };
 
   const onPreview = () => {
-    onSave()
+    onSave();
     navigate("/preview");
   };
 
@@ -80,7 +91,8 @@ const Layout = () => {
             <div
               key={index}
               onClick={onSelected(index)}
-              className={`box ${selected === index ? "active" : ""}`}
+              data-id={index}
+              className={`box ${selected == index ? "active" : ""}`}
             >
               <Comp data={item} />
             </div>
