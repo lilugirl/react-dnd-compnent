@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState,  useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { comps } from "../../data";
 import { Comp } from "../comp";
@@ -44,6 +44,7 @@ const Layout = () => {
   };
 
   const onPreview = () => {
+    onSave()
     navigate("/preview");
   };
 

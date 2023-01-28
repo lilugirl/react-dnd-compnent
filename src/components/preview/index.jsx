@@ -1,5 +1,6 @@
 import { useEffect,useState } from "react"
 import { Comp } from "../comp"
+import './index.css'
 
 const Preview=()=>{
     const [data,setData]=useState([])
@@ -11,7 +12,7 @@ const Preview=()=>{
         console.warn('数据解析失败')
       }
     },[])
-    return <div>
+    return <div className='preview'>
        {data.map((item, index) => {
           return (
             <Comp data={item} key={index} />
