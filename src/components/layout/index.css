@@ -38,7 +38,7 @@
 
 
 .layout .content .box{
-    width:90%;
+    width:70%;
     border:1px solid white;
     color:white;
     margin:0 10px;
@@ -46,8 +46,36 @@
     align-items: center;
     justify-content: center; 
     cursor: pointer;
+    position: relative;
 }
 
 .layout .content .box.active{
     border:2px dotted red;
+}
+
+.layout .content .box .action{
+    position: absolute;
+    right:-96px;
+    top:-2px;
+    background-color:darkcyan;
+    display:flex;
+}
+
+.layout .content .box .action .btn{
+    border:1px solid black;
+    font-size: 10px;
+    padding:4px;
+    display:flex;
+    align-items: center;
+    justify-items: center;
+    color:rgb(38, 37, 37)
+}
+
+.layout .content .box .action .btn.disabled{
+    background-color: rgb(112, 111, 111);
+}
+
+.layout .content .box .action .btn img{
+    width:20px;
+    height:15px;
 }
