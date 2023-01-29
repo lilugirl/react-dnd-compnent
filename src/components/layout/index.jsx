@@ -11,7 +11,7 @@ const Layout = () => {
   const [source, setSource] = useState();
   const [target, setTarget] = useState();
   const position = useRef(-1);
-  const [selected, setSelected] = useState(-1);
+  const [selected, setSelected] = useState(0);
   const navigate = useNavigate();
 
   const onDragStart = (comp) => () => {
@@ -169,7 +169,7 @@ const Layout = () => {
         })}
       </div>
       <div className="right">
-        {selected>=0 && items[selected].props.map((prop, index) => {
+        {items.length && items[selected].props.map((prop, index) => {
       return (
         <div key={index}>
           {prop.label}
