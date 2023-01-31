@@ -4,18 +4,25 @@ import { comps } from "../../data";
 import { Comp } from "../comp";
 import down from "../../assets/down.svg";
 import up from "../../assets/up.svg";
+import { swapArr,moveDownArr,moveUpArr } from "../../utils";
 import "./index.css";
 
 const Layout = () => {
   const [items, setItems] = useState([]);
   const [source, setSource] = useState();
+  const [sourceIndex,setSourceIndex]=useState(-1); // 拖拽源序号 ，对于组件来说拖拽源序号为-1
   const [target, setTarget] = useState();
   const position = useRef(-1);
   const [selected, setSelected] = useState(0);
   const navigate = useNavigate();
 
-  const onDragStart = (comp) => () => {
+
+  const onDragStart = (comp,index) => () => {
     setSource(comp);
+    setSourceIndex(index)
+    if(index>-1){
+      setSelected(index)
+    }
   };
 
   const onDragEnd = () => () => {
@@ -25,14 +32,26 @@ const Layout = () => {
 
   const onDrop = (e) => {
     e.preventDefault();
-    if (position.current >= 0) {
-      const newItems = [...items];
-      newItems.splice(position.current, 0, JSON.parse(JSON.stringify(target)));
-      setItems(newItems);
-      setSelected(position.current);
-    } else {
-      setItems([...items, JSON.parse(JSON.stringify(target))]);
-      setSelected(items.length);
+
+    // 添加组件
+    if(sourceIndex<0){
+      if (position.current >= 0) {
+        const newItems = [...items];
+        newItems.splice(position.current, 0, JSON.parse(JSON.stringify(target)));
+        setItems(newItems);
+        setSelected(position.current);
+      } else {
+        setItems([...items, JSON.parse(JSON.stringify(target))]);
+        setSelected(items.length);
+      }
+    }else{
+      // 组件排序
+      if(position.current>=0){
+        let newItems=[...items]; 
+        newItems=swapArr(newItems,sourceIndex,position.current)  
+        setItems(newItems)
+        setSelected(position.current)
+      }
     }
   };
 
@@ -58,22 +77,18 @@ const Layout = () => {
 
   const handleDown = (index) => (e) => {
     e.stopPropagation();
-    if (index === items.length - 1) return;
-    const newItems = [...items];
-    const item = newItems[index];
-    newItems.splice(index, 1);
-    newItems.splice(index + 1, 0, item);
+    if (index >= items.length - 1) return;
+    let newItems = [...items];
+    newItems=moveDownArr(newItems,index)
     setItems(newItems);
     setSelected(index + 1);
   };
 
   const handleUp = (index) => (e) => {
     e.stopPropagation();
-    if (index === 0) return;
-    const newItems = [...items];
-    const item = newItems[index];
-    newItems.splice(index, 1);
-    newItems.splice(index - 1, 0, item);
+    if (index <= 0) return;
+    let newItems = [...items];
+    newItems=moveUpArr(newItems,index)
     setItems(newItems);
     setSelected(index - 1);
   };
@@ -122,8 +137,8 @@ const Layout = () => {
               className="box"
               key={index}
               draggable
-              onDragStart={onDragStart(comp)}
-              onDragEnd={onDragEnd(comp)}
+              onDragStart={onDragStart(comp,-1)}
+              onDragEnd={onDragEnd()}
             >
               {comp.label}
             </div>
@@ -143,6 +158,9 @@ const Layout = () => {
               onClick={onSelected(index)}
               data-id={index}
               className={`box ${selected === index ? "active" : ""}`}
+              draggable
+              onDragStart={onDragStart(item,index)}
+              onDragEnd={onDragEnd()}
             >
               <div className="action">
                 <div
