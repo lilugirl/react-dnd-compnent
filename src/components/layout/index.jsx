@@ -17,7 +17,9 @@ const Layout = () => {
   const navigate = useNavigate();
 
 
-  const onDragStart = (comp,index) => () => {
+  const onDragStart = (comp,index) => (e) => {
+    e.target.style.opcity=0.1
+   
     setSource(comp);
     setSourceIndex(index)
     if(index>-1){
@@ -25,7 +27,8 @@ const Layout = () => {
     }
   };
 
-  const onDragEnd = () => () => {
+  const onDragEnd = () => (e) => {
+    e.target.style.opcity=1;
     setSource(null);
     setTarget(null);
   };
@@ -57,6 +60,7 @@ const Layout = () => {
 
   const onDragOver = (e) => {
     e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
     if (isNaN(parseInt(e.target.getAttribute("data-id")))) {
       position.current = -1;
     } else {

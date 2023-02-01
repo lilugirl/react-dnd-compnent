@@ -18,6 +18,7 @@
     display:flex;
     align-items: center;
     justify-content: center;
+    cursor:move;
    
 }
 
@@ -36,7 +37,6 @@
     align-items: center;
 }
 
-
 .layout .content .box{
     width:70%;
     border:1px solid white;
@@ -45,12 +45,13 @@
     display:flex;
     align-items: center;
     justify-content: center; 
-    cursor: pointer;
+    cursor:move;
     position: relative;
 }
 
 .layout .content .box.active{
     border:2px dotted red;
+   
 }
 
 .layout .content .box .action{
