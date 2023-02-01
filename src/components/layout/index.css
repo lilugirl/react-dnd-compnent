@@ -47,11 +47,15 @@
     justify-content: center; 
     cursor:move;
     position: relative;
+    transition: transform 0.2s;
 }
 
 .layout .content .box.active{
-    border:2px dotted red;
-   
+    border:2px dotted red;  
+}
+
+.layout .content .box:hover{
+    transform: scale(1.02);
 }
 
 .layout .content .box .action{
